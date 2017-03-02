@@ -5,7 +5,7 @@ PATH
       origen (~> 0.2)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     activesupport (4.2.7.1)
       i18n (~> 0.7)
@@ -157,3 +157,6 @@ DEPENDENCIES
   origen_doc_helpers
   origen_swd!
   origen_testers
+
+BUNDLED WITH
+   1.13.4

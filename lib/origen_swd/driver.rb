@@ -12,7 +12,8 @@ module OrigenSWD
     # either a DUT object or a protocol abstraction
     attr_reader :owner
 
-    # Customiz-ible 'turn-round cycle' (TRN) parameter (in cycles)
+    # Integer, in clock cycles, for turn-round cycle which is the delay for interface
+    # buffers to switch bus direction from read to write.
     attr_accessor :trn
 
     # Initialize class variables
@@ -82,23 +83,16 @@ module OrigenSWD
       # Warn caller that this method is being deprecated
       msg = 'Use swd.write(ap_dp, reg_or_val, wdata, options = {}) instead of send_data(data, size, options = {})'
       Origen.deprecate msg
-      if options.key?(:overlay)
-        $tester.label(options[:overlay])
-        size.times do |bit|
-          swd_clk.drive(1)
-          $tester.label("// SWD Data Pin #{bit}")
-          swd_dio.drive(data[bit])
-          $tester.cycle
-        end
-        swd_dio.dont_care
-      else
-        size.times do |bit|
-          swd_clk.drive(1)
-          swd_dio.drive(data[bit])
-          $tester.cycle
-        end
-        swd_dio.dont_care
+
+      ovl = options.delete(:overlay)
+      $tester.label(ovl) unless ovl.nil?
+      size.times do |bit|
+        swd_clk.drive(1)
+        $tester.label("// SWD Data Pin #{bit}") unless ovl.nil?
+        swd_dio.drive(data[bit])
+        $tester.cycle
       end
+      swd_dio.dont_care
     end
 
     # Recieves data stream with SWD protocol

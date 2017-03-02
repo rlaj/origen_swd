@@ -1,4 +1,4 @@
-module OrigenSWD
+module OrigenSWDDev
   # This is a dummy DUT model which is used
   # to instantiate and test the SWD locally
   # during development.
@@ -15,7 +15,7 @@ module OrigenSWD
     # @param [Hash] options Options to customize the operation
     #
     # @example
-    #   $dut = OrigenSWD::DUT.new
+    #   $dut = OrigenSWDDev::DUT.new
     #
     def initialize(options = {})
       # Sample DPACC register
